@@ -36,7 +36,7 @@ namespace DnsUtils
 					TimeSpan remainingTime = endTime - DateTime.Now;
 
 					Task delayTask = Task.Delay((int)remainingTime.TotalMilliseconds);
-					Task<UdpReceiveResult> receiveTask = Task.Run(client.ReceiveAsync, cancellationToken);
+					Task<UdpReceiveResult> receiveTask = Task.Run(() => client.ReceiveAsync(), cancellationToken);
 
 					Task<Task> finishedTask = Task.WhenAny(delayTask, receiveTask);
 
@@ -45,7 +45,7 @@ namespace DnsUtils
 						return null;
 					}
 
-					if (receiveTask.Status != TaskStatus.WaitingForActivation)
+					if (cancellationToken.IsCancellationRequested)
 					{
 						return null;
 					}
