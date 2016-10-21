@@ -5,9 +5,9 @@ A simple DNS library that allows serialization and deserialization of DNS packet
 
 ```csharp
 Mdns mdns = new Mdns();
-Lllmnr llmnr = new Llmnr();
+Llmnr llmnr = new Llmnr();
 
-IPAddress address = NameResolving.ResolveAsync("TheHostname", 2000, CancellationToken.None, mdns, llmnr);
+IPAddress address = NameResolving.ResolveAsync("TheHostname", 2000, CancellationToken.None, mdns, llmnr).Result;
 
 if (address != null)
 {
