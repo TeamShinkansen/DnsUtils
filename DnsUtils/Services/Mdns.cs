@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +10,7 @@ namespace DnsUtils.Services
 	{
 		public static readonly IPAddress MulticastAddress = IPAddress.Parse("224.0.0.251");
 		public const int Port = 5353;
+		public const string HostnameSuffix = ".local";
 
 		public static async Task<IPAddress> ResolveAsync(string hostname, int timeout = 2000, CancellationToken cancellationToken = default(CancellationToken))
 		{
@@ -20,6 +18,11 @@ namespace DnsUtils.Services
 
 			UdpClient client = new UdpClient();
 			DnsPacket questionPacket = new DnsPacket();
+
+			if (!hostname.EndsWith(HostnameSuffix))
+			{
+				hostname += HostnameSuffix;
+			}
 
 			questionPacket.Questions.Add(new DnsQuestion(hostname, DnsRecordType.A, DnsRecordClass.InterNetwork));
 
