@@ -48,10 +48,11 @@ namespace DnsUtils.Services
 						return null;
 					}
 
-					if (receiveTask.Status != TaskStatus.RanToCompletion)
+					if (receiveTask.Status != TaskStatus.WaitingForActivation)
 					{
 						return null;
 					}
+
 					DnsPacket responsePacket = DnsPacket.FromBytes(receiveTask.Result.Buffer);
 
 					if (responsePacket.ID == questionPacket.ID && responsePacket.AnswerCount > 0)
