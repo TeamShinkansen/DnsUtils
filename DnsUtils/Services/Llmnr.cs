@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DnsUtils
 {
-	public class Llmnr
+	public class Llmnr : INameResolver
 	{
 		public static readonly IPAddress MulticastAddress = IPAddress.Parse("224.0.0.252");
 		public const int Port = 5355;
 
-		public static async Task<IPAddress> ResolveAsync(string hostname, int timeout = 2000, CancellationToken cancellationToken = default(CancellationToken))
+		public async Task<IPAddress> ResolveAsync(string hostname, int timeout = 2000, CancellationToken cancellationToken = default(CancellationToken))
 		{
 			IPEndPoint llmnrEndPoint = new IPEndPoint(MulticastAddress, Port);
 

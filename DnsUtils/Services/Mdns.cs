@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DnsUtils.Services
 {
-	public class Mdns
+	public class Mdns : INameResolver
 	{
 		public static readonly IPAddress MulticastAddress = IPAddress.Parse("224.0.0.251");
 		public const int Port = 5353;
 		public const string HostnameSuffix = ".local";
 
-		public static async Task<IPAddress> ResolveAsync(string hostname, int timeout = 2000, CancellationToken cancellationToken = default(CancellationToken))
+		public async Task<IPAddress> ResolveAsync(string hostname, int timeout = 2000, CancellationToken cancellationToken = default(CancellationToken))
 		{
 			IPEndPoint mdnsEndPoint = new IPEndPoint(MulticastAddress, Port);
 
