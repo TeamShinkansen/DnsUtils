@@ -4,7 +4,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DnsUtils
+namespace DnsUtils.Services
 {
 	public static class NameResolving
 	{
