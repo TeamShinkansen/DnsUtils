@@ -3,11 +3,27 @@ A simple DNS library that allows serialization and deserialization of DNS packet
 
 # Example
 
+## Synchronous
+
 ```csharp
 Mdns mdns = new Mdns();
 Llmnr llmnr = new Llmnr();
 
 IPAddress address = NameResolving.ResolveAsync("vdownsrv-sql", 2000, mdns, llmnr).Result;
+
+if (address != null)
+{
+    // Success!
+}
+```
+
+## Asynchronous
+
+```csharp
+Mdns mdns = new Mdns();
+Llmnr llmnr = new Llmnr();
+
+IPAddress address = await NameResolving.ResolveAsync("vdownsrv-sql", 2000, mdns, llmnr);
 
 if (address != null)
 {
