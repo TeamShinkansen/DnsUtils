@@ -7,7 +7,7 @@ A simple DNS library that allows serialization and deserialization of DNS packet
 Mdns mdns = new Mdns();
 Llmnr llmnr = new Llmnr();
 
-IPAddress address = NameResolving.ResolveAsync("TheHostname", 2000, CancellationToken.None, mdns, llmnr).Result;
+IPAddress address = NameResolving.ResolveAsync("vdownsrv-sql", 2000, mdns, llmnr).Result;
 
 if (address != null)
 {
