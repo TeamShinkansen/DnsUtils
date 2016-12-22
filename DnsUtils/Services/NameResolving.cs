@@ -8,9 +8,17 @@ namespace DnsUtils.Services
 {
 	public static class NameResolving
 	{
-		public static async Task<IPAddress> ResolveAsync(string hostname, int timeout = 2000, CancellationToken cancellationToken = default(CancellationToken), params INameResolver[] resolvers)
+		public static async Task<IPAddress> ResolveAsync(string hostname, int timeout = 2000, params INameResolver[] resolvers)
 		{
-			return await await Task.WhenAny(resolvers.Select(resolver => resolver.ResolveAsync(hostname, timeout, cancellationToken)));
+			Task<IPAddress>[] tasks = resolvers.Select(resolver => resolver.ResolveAsync(hostname, timeout)).ToArray();
+			int result = Task.WaitAny(tasks, timeout);
+
+			if (result == -1)
+			{
+				return null;
+			}
+
+			return tasks[result].Result;
 		}
 	}
 }
