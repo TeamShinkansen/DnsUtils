@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -11,7 +12,7 @@ namespace DnsUtils.Services
 		public static readonly IPAddress MulticastAddress = IPAddress.Parse("224.0.0.252");
 		public const int Port = 5355;
 
-		public async Task<IPAddress> ResolveAsync(string hostname, int timeout = 2000)
+		public async Task<IPAddress[]> ResolveAsync(string hostname, int timeout = 2000)
 		{
 			IPEndPoint llmnrEndPoint = new IPEndPoint(MulticastAddress, Port);
 
@@ -39,15 +40,20 @@ namespace DnsUtils.Services
 
 				if (responsePacket.ID == questionPacket.ID && responsePacket.AnswerCount > 0)
 				{
+                    List<IPAddress> results = new List<IPAddress>();
 					foreach (var answer in responsePacket.Answers)
 					{
 						DnsARecord aRecord = answer as DnsARecord;
 
 						if (aRecord != null)
 						{
-							return aRecord.IPAddress;
+							results.Add(aRecord.IPAddress);
 						}
 					}
+                    if (results.Count > 0)
+                    {
+                        return results.ToArray();
+                    }
 				}
 			}
 

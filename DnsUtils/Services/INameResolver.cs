@@ -7,6 +7,6 @@ namespace DnsUtils.Services
 {
 	public interface INameResolver
 	{
-		Task<IPAddress> ResolveAsync(string hostname, int timeout = 2000);
+		Task<IPAddress[]> ResolveAsync(string hostname, int timeout = 2000);
 	}
 }
