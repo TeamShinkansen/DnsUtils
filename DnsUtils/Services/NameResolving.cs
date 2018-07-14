@@ -8,7 +8,8 @@ namespace DnsUtils.Services
 {
 	public static class NameResolving
 	{
-		public static async Task<IPAddress[]> ResolveAsync(string hostname, int timeout = 2000, params INameResolver[] resolvers)
+        #pragma warning disable CS1998
+        public static async Task<IPAddress[]> ResolveAsync(string hostname, int timeout = 2000, params INameResolver[] resolvers)
 		{
 			Task<IPAddress[]>[] tasks = resolvers.Select(resolver => resolver.ResolveAsync(hostname, timeout)).ToArray();
 			int result = Task.WaitAny(tasks, timeout);
@@ -20,5 +21,6 @@ namespace DnsUtils.Services
 
 			return tasks[result].Result;
 		}
-	}
+        #pragma warning restore CS1998
+    }
 }
